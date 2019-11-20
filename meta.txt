@@ -1,34 +1,9 @@
-sample_name	fastq_name	factor	reference
-sample1	Li-Lane-1-1A-062817	CST-CHD1	mouse
-sample1	Li-Lane-1-1C-062817	Bethal-CHD1	mouse
-sample1	Li-Lane-1-1E-062817	IgG	mouse
-sample1	Li-Lane-4-7E-062817	Input	mouse
-sample2	Li-Lane-1-1B-062817	CST-CHD1	mouse
-sample2	Li-Lane-1-1D-062817	Bethal-CHD1	mouse
-sample2	Li-Lane-1-1F-062817	IgG	mouse
-sample2	Li-Lane-4-7F-062817	Input	mouse
-sample3	Li-Lane-2-3C-062817	SOX2	mouse
-sample3	Li-Lane-2-3D-062817	H3K27Ac	mouse
-sample3	Li-Lane-4-7G-062817	Input	mouse
-sample4	Li-Lane-2-3E-062817	H3K9me3	mouse
-sample4	Li-Lane-3-5A-062817	H3K27Ac	mouse
-sample4	Li-Lane-3-5E-062817	MYC	mouse
-sample4	Li-Lane-2-7H-062817	Input	mouse
-sample5	Li-Lane-2-3F-062817	H3K9me3	mouse
-sample5	Li-Lane-3-5B-062817	H3K27Ac	mouse
-sample5	Li-Lane-3-9A-062817	Input	mouse
-sample6	Li-Lane-2-3G-062817	H3K9me3	mouse
-sample6	Li-Lane-3-5C-062817	H3K27Ac	mouse
-sample6	Li-Lane-4-9B-062817	Input	mouse
-sample7	Li-Lane-2-3H-062817	H3K9me3	mouse
-sample7	Li-Lane-3-5D-062817	H3K27Ac	mouse
-sample7	Li-Lane-3-5H-062817	MYC	mouse
-sample7	Li-Lane-4-9C-062817	Input	mouse
-sample8	Li-Lane-4-7A-062817	SMAD3	mouse
-sample8	Li-Lane-5-9D-062817	Input	mouse
-sample9	Li-Lane-4-7B-062817	SMAD3	mouse
-sample9	Li-Lane-5-9E-062817	Input	mouse
-sample10	Li-Lane-5-1H-062817	H3K27Ac	human
-sample10	Li-Lane-5-7C-062817	Input	human
-sample11	Li-Lane-5-3B-062817	H3K27Ac	human
-sample11	Li-Lane-5-7D-062817	Input	human
+sample	fastq	type
+EV-chip	 EV-chip_L002_R1_001.fastq.gz	chip
+EV-chip	 EV-chip_L002_R2_001.fastq.gz	chip
+EV-input	 EV-input_L002_R1_001.fastq.gz	input
+EV-input	 EV-input_L002_R2_001.fastq.gz	input
+gRNA-chip	 gRNA-chip_L002_R1_001.fastq.gz	chip
+gRNA-chip	 gRNA-chip_L002_R2_001.fastq.gz	chip
+gRNA-input	 gRNA-input_L002_R1_001.fastq.gz	input
+gRNA-input	 gRNA-input_L002_R2_001.fastq.gz	input
