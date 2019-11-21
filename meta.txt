@@ -1,9 +1,9 @@
 sample	fastq	type
-EV-chip	 EV-chip_L002_R1_001.fastq.gz	chip
-EV-chip	 EV-chip_L002_R2_001.fastq.gz	chip
-EV-input	 EV-input_L002_R1_001.fastq.gz	input
-EV-input	 EV-input_L002_R2_001.fastq.gz	input
-gRNA-chip	 gRNA-chip_L002_R1_001.fastq.gz	chip
-gRNA-chip	 gRNA-chip_L002_R2_001.fastq.gz	chip
-gRNA-input	 gRNA-input_L002_R1_001.fastq.gz	input
-gRNA-input	 gRNA-input_L002_R2_001.fastq.gz	input
+EV	 EV-chip_L002_R1_001.fastq.gz	CHIP
+EV	 EV-chip_L002_R2_001.fastq.gz	CHIP
+EV	 EV-input_L002_R1_001.fastq.gz	INPUT
+EV	 EV-input_L002_R2_001.fastq.gz	INPUT
+gRNA	 gRNA-chip_L002_R1_001.fastq.gz	CHIP
+gRNA	 gRNA-chip_L002_R2_001.fastq.gz	CHIP
+gRNA	 gRNA-input_L002_R1_001.fastq.gz	INPUT
+gRNA	 gRNA-input_L002_R2_001.fastq.gz	INPUT
