@@ -38,9 +38,11 @@ CASE_BAM = expand("03aln/{sample}.sorted.bam", sample=CASES)
 ALL_PEAKS = []
 ALL_inputSubtract_BIGWIG = []
 
-
+print( CASES)
 for case in CASES:
     control = "_".join(case.split("_")[0:-1]) + "_" + CONTROL
+    print (control) 
+    print( CONTROLS)
     if control in CONTROLS:
         ALL_PEAKS.append("05peak_macs2/{}_vs_{}_macs2_peaks.xls".format(case, control))
         ALL_inputSubtract_BIGWIG.append("06bigwig_inputSubtract/{}_subtract_{}.bw".format(case, control))
@@ -93,9 +95,10 @@ rule trim_adapter:
     input:  get_fastq_r1, get_fastq_r2 
     output: "01_trim_seq/{sample}_1.fastq.gz" , "01_trim_seq/{sample}_2.fastq.gz"
     params : jobname = "{sample}"
+    threads : 4
     shell: 
         """
-        NGmerge  -a  -1 {input[0]} -2 {input[1]}  -o 01_trim_seq/{params.jobname}
+        NGmerge  -a  -n 4 -1 {input[0]} -2 {input[1]}  -o 01_trim_seq/{params.jobname}
         """
 
 rule fastqc:
@@ -116,7 +119,7 @@ rule fastqc:
 rule bwa_align:
     input:  "01_trim_seq/{sample}_1.fastq.gz" , "01_trim_seq/{sample}_2.fastq.gz"
     output: "03aln/{sample}.sorted.bam"
-    threads: 12
+    threads: 6
     message: "aligning {input}: {threads} threads"
     log:
         markdup = "00log/{sample}.markdup"
