@@ -137,11 +137,7 @@ rule bwa_align:
     shell:
         """
         module load bwa
-        bwa mem  -t {threads} {BWA_INDEX} {input[0]} {input[1]}  > {output} \
-        2 > {log}
-        | samblaster --removeDups \
-	    | samtools view -Sb -F 4 - \
-	    | samtools sort -m 6G -@ {threads} -T {output[0]}.tmp -o {output[0]} 2> {log}
+        bwa mem  -t {threads} {BWA_INDEX} {input[0]} {input[1]}  > {output}  2> {log}
         """
 
 rule remove_duplicate:
