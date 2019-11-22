@@ -39,7 +39,6 @@ with open(args.meta, "r") as f:
     header = next(reader) ## skip header
     # header = next(reader)
     for row in reader:
-        print (row)
         if row == []: break
         sample_name = row[0].strip()
         fastq_name = row[1].strip()

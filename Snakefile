@@ -92,29 +92,27 @@ rule all:
 def get_fastq_r1(wildcards):
     s_id = "_".join(wildcards.sample.split("_")[0:-1])  ## extract the last _ element for the type
     mark = wildcards.sample.split("_")[-1]
-    # return "raw_fastq/gRNA-input_L002_R2_001.fastq.gz"
     return FILES[s_id][mark]['R1']
 
 def get_fastq_r2(wildcards):
     s_id = "_".join(wildcards.sample.split("_")[0:-1])  ## extract the last _ element for the type
     mark = wildcards.sample.split("_")[-1]
-    # return "raw_fastq/gRNA-input_L002_R2_001.fastq.gz"
     return FILES[s_id][mark]['R2']
 
 rule trim_adapter:
-    input:  get_fastq_r1, get_fastq_r2 
+    input:  ancient(get_fastq_r1), ancient(get_fastq_r2 )
     output: "01_trim_seq/{sample}_1.fastq.gz" , "01_trim_seq/{sample}_2.fastq.gz"
     params : jobname = "{sample}"
     log:    "00_log/{sample}_trim_adapter"
-    threads : 6
+    threads : 36
     shell: 
         """
         NGmerge  -a  -n {threads} -1 {input[0]} -2 {input[1]}  -o 01_trim_seq/{params.jobname} 2> {log} 
         """
 
 rule fastqc:
-    input:  "01_trim_seq/{sample}_1.fastq.gz" , "01_trim_seq/{sample}_2.fastq.gz"
-    output: "02_fqc/{sample}_1_fastqc.html" , "02fqc/{sample}_2_fastqc.html"
+    input: ancient( "01_trim_seq/{sample}_1.fastq.gz") , ancient("01_trim_seq/{sample}_2.fastq.gz")
+    output: "02_fqc/{sample}_1_fastqc.html" , "02_fqc/{sample}_2_fastqc.html"
     log:    "00_log/{sample}_fastqc"
     threads: 1
     params : jobname = "{sample}"
@@ -122,7 +120,7 @@ rule fastqc:
     shell:
         """
         module load fastqc
-        fastqc -o 02fqc -f fastq --noextract {input}  2> {log}
+        fastqc -o 02_fqc -f fastq --noextract {input}  2> {log}
         """
 # get the duplicates marked sorted bam, remove unmapped reads by samtools view -F 4 and dupliated reads by samblaster -r
 # samblaster should run before samtools sort
@@ -130,7 +128,7 @@ rule fastqc:
 rule bwa_align:
     input:  "01_trim_seq/{sample}_1.fastq.gz" , "01_trim_seq/{sample}_2.fastq.gz"
     output: temp("03_aln/{sample}.sam")
-    threads: 6
+    threads: 32
     message: "bwa {input}: {threads} threads"
     log:
          "00_log/{sample}.bwa"
@@ -151,7 +149,7 @@ rule remove_duplicate:
         """
 
 rule sam_to_bam:
-    input:  "03_aln/{sample}.duremovedsam"
+    input:  ancient("03_aln/{sample}.duremovedsam")
     output: temp( "03_aln/{sample}.tmp.bam")
     message: "samtools {input}: to sam"
     shell:
@@ -161,14 +159,14 @@ rule sam_to_bam:
         """
 
 rule sort_bam:
-    input:  "03_aln/{sample}.tmp.bam"
+    input:  ancient("03_aln/{sample}.tmp.bam")
     output: "03_aln/{sample}.sorted.bam"
     message: "samtools  sort {input} "
-    threads : 6
+    threads : 24
     shell:
         """
         module load samtools
-        samtools sort -m 6G -@ {threads} -T {output[0]}.tmp -o {output[0]} 
+        samtools sort -m 6G -@ {threads} -T {output[0]}.tmp -o {output[0]} {input} 
         """
 
 rule index_bam:
@@ -242,7 +240,7 @@ rule call_peaks_macs2:
        ## for macs2, when nomodel is set, --extsize is default to 200bp, this is the same as 2 * shift-size in macs14.
         macs2 callpeak -t {input.case} \
             -c {input.control} --keep-dup all -f BAM -g hs \
-            --outdir 05peak_macs2 -n {params.name} -p 1e-5  -B --broad --broad-cutoff 1e-5 --nomodel &> {log}
+            --outdir 05_peak_macs2_broad -n {params.name} -p 1e-5  -B --broad --broad-cutoff 1e-5 --nomodel &> {log}
         """
 
 
@@ -260,7 +258,7 @@ rule call_peaks_macs2_narrow:
        ## for macs2, when nomodel is set, --extsize is default to 200bp, this is the same as 2 * shift-size in macs14.
         macs2 callpeak -t {input.case} \
             -c {input.control} --keep-dup all -f BAM -g hs \
-            --outdir 05peak_macs2 -n {params.name} -p 1e-5  -B --nomodel &> {log}
+            --outdir 06_peak_macs2_narrow -n {params.name} -p 1e-5  -B --nomodel &> {log}
         """
 
 
